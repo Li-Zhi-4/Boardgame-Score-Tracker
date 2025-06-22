@@ -1,11 +1,10 @@
 import './App.css'
-import { HomePage } from './pages/HomePage'
+import { useRoutes } from 'react-router-dom'
+import { routes } from './routes/routes';
 
 function App() {
-
-    return (
-        <HomePage />
-    )
+    const element = useRoutes(routes);
+    return element;
 }
 
 export default App

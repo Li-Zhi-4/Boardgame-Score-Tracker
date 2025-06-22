@@ -46,28 +46,32 @@ export function NavigationBar() {
 
             {/* Desktop Navigation Bar */}
             <div className="hidden md:flex flex flex-row justify-between items-center px-16 w-full h-[56px] shadow-sm">
-                <img src={logo} alt="logo" />
+                <Link to='/'>
+                    <img src={logo} alt="home logo" />
+                </Link>
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
                             <NavigationMenuTrigger>Games</NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <NavigationMenuLink>Coming soon!</NavigationMenuLink>
+                                <NavigationMenuLink className="w-[300px]" asChild>
+                                    <Link to='/ticket-to-ride-calculator'>Ticket to Ride</Link>
+                                </NavigationMenuLink>
                             </NavigationMenuContent>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link to='/'>Features</Link>
+                                <Link to='/error'>Features</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link to='/'>About</Link>
+                                <Link to='/error'>About</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link to='/'>Contact</Link>
+                                <Link to='/error'>Contact</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     </NavigationMenuList>
