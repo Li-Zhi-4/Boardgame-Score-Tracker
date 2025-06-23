@@ -6,15 +6,20 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import ticketToRideImg from '/src/assets/ticket-to-ride.svg'
 
+interface HeroBannerProps {
+    title:          string;
+    description:    string;
+    tag:            string;
+    imgURL:         string;
+}
 
-export function HeroBanner() {
+export function HeroBanner({ title, description, tag, imgURL }: HeroBannerProps) {
 
     return (
-        <div className='flex w-full h-screen pt-32'>
-            <div className='flex flex-col sm:flex-row gap-6 justify-between items-center px-6 py-6 sm:px-16 w-full h-fit bg-neutral-50'>
-                <div className="flex flex-col gap-12">
+        <div className='flex w-full h-fit pt-32'>
+            <div className='flex flex-col sm:flex-row gap-6 justify-between items-center px-6 py-6 sm:px-16 w-full bg-neutral-50'>
+                <div className="flex flex-col gap-12 h-full">
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
@@ -26,20 +31,20 @@ export function HeroBanner() {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Ticket to Ride</BreadcrumbPage>
+                                <BreadcrumbPage>{title}</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
 
                     <div className="flex flex-col gap-6">
                         <div className="flex flex-col gap-2">
-                            <span className="text-base font-bold text-blue-500">Strategy</span>
-                            <h1 className="text-4xl font-semibold">Ticket to Ride</h1>
+                            <span className="text-base font-bold text-blue-500">{tag}</span>
+                            <h1 className="text-4xl font-semibold">{title}</h1>
                         </div>
-                        <p className="text-muted-foreground text-base">Ticket to Ride is a strategic board game where players collect train cards to claim routes and complete destination tickets across a map of cities.</p>
+                        <p className="text-muted-foreground text-base">{description}</p>
                     </div>
                 </div>
-                <img src={ticketToRideImg} alt="Ticket to Ride image" className="max-w-[300px] max-h-[300px]"/>
+                <img src={imgURL} alt="Ticket to Ride image" className="max-w-[300px] max-h-[300px]"/>
             </div>
         </div>
     )

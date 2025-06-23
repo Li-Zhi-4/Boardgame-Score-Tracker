@@ -31,7 +31,7 @@ export function FeaturesSection() {
     }
 
     /**
-     * Think about the width of these sections and how they should align with each other.
+     * Change width
      * This one is 768px and the other if aroun 680px and it looks a little weird having two different widths.
      */
     return (
