@@ -1,4 +1,3 @@
-import { useState } from "react"
 import {
     Card,
     CardAction,
@@ -26,24 +25,37 @@ import { useForm } from "react-hook-form"
 import { Plus, Minus, Ellipsis } from "lucide-react"
 
 export function TicketToRideScoreCard() {
-    const [destValue, setDestValue] = useState(undefined);
-
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
     const DESTINATIONS: number[] = [];
+    let LONGEST_PATH: number | undefined = undefined;
     
-    const FormSchema = z.object({
+    // Form Schemas
+    const DestinationFormSchema = z.object({
         points: z.coerce.number().int().optional()
     });
 
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+    const LongestPathFormSchema = z.object({
+        path_length: z.coerce.number().int().nonnegative().optional()
+    });
+
+
+    // Forms
+    const DestinationForm = useForm<z.infer<typeof DestinationFormSchema>>({
+        resolver: zodResolver(DestinationFormSchema),
         defaultValues: {
             points: undefined,
         },
-    })
+    });
+
+    const LongestPathForm = useForm<z.infer<typeof LongestPathFormSchema>>({
+        resolver: zodResolver(LongestPathFormSchema),
+        defaultValues: {
+            path_length: undefined,
+        },
+    });
 
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    function onDestinationSubmit(data: z.infer<typeof DestinationFormSchema>) {
         console.log(data);
         if (typeof data["points"] === "number") {
             DESTINATIONS.push(data["points"]);
@@ -55,8 +67,24 @@ export function TicketToRideScoreCard() {
                 }
             })
         }
-        form.setValue("points", undefined);
+        DestinationForm.setValue("points", undefined);
         console.log(DESTINATIONS);
+    }
+
+    function onLongestPathSubmit(data: z.infer<typeof LongestPathFormSchema>) {
+        console.log(data);
+        if (typeof data["path_length"] === "number") {
+            LONGEST_PATH = data["path_length"];
+            toast("Successfully Recorded Longest Path", {
+                description: `Path length of ${data["path_length"]} recorded`,
+                action: {
+                    label: "undo",
+                    onClick: () => console.log("Undo")
+                }
+            })
+        }
+        LongestPathForm.setValue("path_length", undefined);
+        console.log(LONGEST_PATH);
     }
 
     return (
@@ -96,10 +124,10 @@ export function TicketToRideScoreCard() {
                 <CardTitle>Destination Calculator</CardTitle>
                 <CardDescription>Input a positive/negative value for completed/incomplete destinations tickets.</CardDescription>
                 {/* Form goes here */}
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
+                <Form {...DestinationForm}>
+                    <form onSubmit={DestinationForm.handleSubmit(onDestinationSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
                         <FormField
-                            control={form.control}
+                            control={DestinationForm.control}
                             name="points"
                             render={({ field }) => (
                                 <FormItem className="w-full">
@@ -125,10 +153,36 @@ export function TicketToRideScoreCard() {
             </CardContent>
 
 
-            <CardContent>
+            <CardContent className="flex flex-col gap-2">
                 <CardTitle>Longest Path</CardTitle>
                 <CardDescription>Input the length of your longest consecutive train path.</CardDescription>
                 {/* Form goes here */}
+                <Form {...LongestPathForm}>
+                    <form onSubmit={LongestPathForm.handleSubmit(onLongestPathSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
+                        <FormField 
+                            control={LongestPathForm.control}
+                            name="path_length"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <FormLabel>Path Length</FormLabel>
+                                    <FormControl>
+                                        <Input 
+                                            className="no-spinner" 
+                                            placeholder="Input path length" 
+                                            type="number" 
+                                            value={field.value ?? ""}
+                                            onChange={(e) =>
+                                                field.onChange(e.target.value === "" ? undefined : +e.target.value)
+                                            }
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" variant="default">Add</Button>
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     )
