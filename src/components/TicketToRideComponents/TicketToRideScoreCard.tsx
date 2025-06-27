@@ -24,15 +24,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Plus, Minus, Ellipsis } from "lucide-react"
 
+import { DestinationForm } from "./DestinationForm"
+
 export function TicketToRideScoreCard() {
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
-    const DESTINATIONS: number[] = [];
+    // const DESTINATIONS: number[] = [];
     let LONGEST_PATH: number | undefined = undefined;
     
     // Form Schemas
-    const DestinationFormSchema = z.object({
-        points: z.coerce.number().int().optional()
-    });
+    // const DestinationFormSchema = z.object({
+    //     points: z.coerce.number().int().optional()
+    // });
 
     const LongestPathFormSchema = z.object({
         path_length: z.coerce.number().int().nonnegative().optional()
@@ -40,12 +42,12 @@ export function TicketToRideScoreCard() {
 
 
     // Forms
-    const DestinationForm = useForm<z.infer<typeof DestinationFormSchema>>({
-        resolver: zodResolver(DestinationFormSchema),
-        defaultValues: {
-            points: undefined,
-        },
-    });
+    // const DestinationForm = useForm<z.infer<typeof DestinationFormSchema>>({
+    //     resolver: zodResolver(DestinationFormSchema),
+    //     defaultValues: {
+    //         points: undefined,
+    //     },
+    // });
 
     const LongestPathForm = useForm<z.infer<typeof LongestPathFormSchema>>({
         resolver: zodResolver(LongestPathFormSchema),
@@ -55,21 +57,21 @@ export function TicketToRideScoreCard() {
     });
 
 
-    function onDestinationSubmit(data: z.infer<typeof DestinationFormSchema>) {
-        console.log(data);
-        if (typeof data["points"] === "number") {
-            DESTINATIONS.push(data["points"]);
-            toast("Successfully Recorded Destination Ticket", {
-                description: `${data["points"]} points added to total`,
-                action: {
-                    label: "undo",
-                    onClick: () => console.log("Undo")
-                }
-            })
-        }
-        DestinationForm.setValue("points", undefined);
-        console.log(DESTINATIONS);
-    }
+    // function onDestinationSubmit(data: z.infer<typeof DestinationFormSchema>) {
+    //     console.log(data);
+    //     if (typeof data["points"] === "number") {
+    //         DESTINATIONS.push(data["points"]);
+    //         toast("Successfully Recorded Destination Ticket", {
+    //             description: `${data["points"]} points added to total`,
+    //             action: {
+    //                 label: "undo",
+    //                 onClick: () => console.log("Undo")
+    //             }
+    //         })
+    //     }
+    //     DestinationForm.setValue("points", undefined);
+    //     console.log(DESTINATIONS);
+    // }
 
     function onLongestPathSubmit(data: z.infer<typeof LongestPathFormSchema>) {
         console.log(data);
@@ -124,7 +126,8 @@ export function TicketToRideScoreCard() {
                 <CardTitle>Destination Calculator</CardTitle>
                 <CardDescription>Input a positive/negative value for completed/incomplete destinations tickets.</CardDescription>
                 {/* Form goes here */}
-                <Form {...DestinationForm}>
+                <DestinationForm />
+                {/* <Form {...DestinationForm}>
                     <form onSubmit={DestinationForm.handleSubmit(onDestinationSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
                         <FormField
                             control={DestinationForm.control}
@@ -149,7 +152,7 @@ export function TicketToRideScoreCard() {
                         />
                         <Button type="submit" variant="default">Add</Button>
                     </form>
-                </Form>
+                </Form> */}
             </CardContent>
 
 
