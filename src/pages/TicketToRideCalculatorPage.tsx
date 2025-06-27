@@ -6,11 +6,36 @@ import { Plus } from "lucide-react"
 import { NavigationBar } from "@/components/NavigationBar"
 import { HeroBanner } from "@/components/HeroBanner"
 import { TicketToRideScoreCard } from "@/components/TicketToRideComponents/TicketToRideScoreCard"
+import { columns, type Destination } from "@/components/TicketToRideComponents/DestinationTable/columns"
+import { DataTable } from "@/components/TicketToRideComponents/DestinationTable/destination-table"
 import { Footer } from "@/components/Footer"
 
 import ticketToRideImage from '/src/assets/ticket-to-ride.svg'
 
+function getData(): Destination[] {
+    return [
+        {
+            id: "1",
+            route: "Petrograd to Brest",
+            type: "long ticket",
+            status: true,
+            points: 21,
+        },
+        {
+            id: "2",
+            route: "Petrograd to Brest",
+            type: "long ticket",
+            status: false,
+            points: 21,
+        },
+    ]
+}
+
+
+
+
 export function TicketToRideCalculatorPage() {
+
 
     return (
         <div className="overflow-x-hidden">
@@ -39,9 +64,9 @@ export function TicketToRideCalculatorPage() {
                     </div>
 
                     {/* Player 1 Content goes here */}
-                    <TabsContent value="player-1" className="flex flex-col sm:flex-row gap-6 pt-6">
+                    <TabsContent value="player-1" className="flex flex-col lg:flex-row gap-6 pt-6">
                         <TicketToRideScoreCard />
-
+                        <DataTable columns={columns} data={getData()}/>
                     </TabsContent>
 
                     <TabsContent value="player-2">Change your password here.</TabsContent>

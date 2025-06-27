@@ -88,7 +88,7 @@ export function TicketToRideScoreCard() {
     }
 
     return (
-        <Card>
+        <Card className="w-full lg:w-auto">
             <CardHeader className="flex flex-row justify-between">
                 <div className="flex flex-col gap-2">
                     <CardTitle>Player 1</CardTitle>
