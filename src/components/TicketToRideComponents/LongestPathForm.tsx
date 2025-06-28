@@ -14,59 +14,56 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
-interface DestinationFormProps {
-    destinations: number[],
-    setDestinations: React.Dispatch<React.SetStateAction<number[]>>;
+interface LongestPathFormProps {
+    longestPath: number,
+    setLongestPath: React.Dispatch<React.SetStateAction<number>>;
 }
 
-
-export function DestinationForm({ destinations, setDestinations }: DestinationFormProps) {
+export function LongestPathForm({ longestPath, setLongestPath }: LongestPathFormProps) {
 
     // Form Schemas
-    const DestinationFormSchema = z.object({
-        points: z.coerce.number().int().optional()
+    const LongestPathFormSchema = z.object({
+        path_length: z.coerce.number().int().nonnegative().optional()
     });
 
     // Forms
-    const form = useForm<z.infer<typeof DestinationFormSchema>>({
-        resolver: zodResolver(DestinationFormSchema),
+    const LongestPathForm = useForm<z.infer<typeof LongestPathFormSchema>>({
+        resolver: zodResolver(LongestPathFormSchema),
         defaultValues: {
-            points: undefined,
+            path_length: undefined,
         },
     });
 
-    function onDestinationSubmit(data: z.infer<typeof DestinationFormSchema>) {
+
+    function onLongestPathSubmit(data: z.infer<typeof LongestPathFormSchema>) {
         // console.log(data);
-        if (typeof data["points"] === "number") {
-            const points = data["points"];
-            // console.log(points)
-            setDestinations((prev) => [...prev, points]);
-            toast("Successfully Recorded Destination Ticket", {
-                description: `${points} points added to total`,
+        if (typeof data["path_length"] === "number") {
+            setLongestPath(data["path_length"]);
+            toast("Successfully Recorded Longest Path", {
+                description: `Path length of ${data["path_length"]} recorded`,
                 action: {
                     label: "undo",
                     onClick: () => console.log("Undo")
                 }
             })
         }
-        form.setValue("points", undefined);
-        console.log(destinations);
+        LongestPathForm.setValue("path_length", undefined);
+        console.log(longestPath);
     }
 
-
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onDestinationSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
-                <FormField
-                    control={form.control}
-                    name="points"
+        <Form {...LongestPathForm}>
+            <form onSubmit={LongestPathForm.handleSubmit(onLongestPathSubmit)} className="flex flex-row gap-2 items-end justify-between w-full">
+                <FormField 
+                    control={LongestPathForm.control}
+                    name="path_length"
                     render={({ field }) => (
                         <FormItem className="w-full">
-                            <FormLabel>Points</FormLabel>
+                            <FormLabel>Path Length</FormLabel>
                             <FormControl>
                                 <Input 
                                     className="no-spinner" 
-                                    placeholder="Input points" 
+                                    placeholder="Input path length" 
                                     type="number" 
                                     value={field.value ?? ""}
                                     onChange={(e) =>
