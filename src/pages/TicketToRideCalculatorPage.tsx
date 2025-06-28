@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/sonner"
@@ -13,6 +14,7 @@ import { Footer } from "@/components/Footer"
 import ticketToRideImage from '/src/assets/ticket-to-ride.svg'
 
 function getData(): Destination[] {
+    
     return [
         {
             id: "1",
@@ -33,9 +35,9 @@ function getData(): Destination[] {
 
 
 
-
 export function TicketToRideCalculatorPage() {
-
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+    const [longestPath, setLongestPath] = useState<number>(0);
 
     return (
         <div className="overflow-x-hidden">
@@ -65,8 +67,13 @@ export function TicketToRideCalculatorPage() {
 
                     {/* Player 1 Content goes here */}
                     <TabsContent value="player-1" className="flex flex-col lg:flex-row gap-6 pt-6">
-                        <TicketToRideScoreCard />
-                        <DataTable columns={columns} data={getData()}/>
+                        <TicketToRideScoreCard 
+                            destinations={destinations}
+                            setDestinations={setDestinations}
+                            longestPath={longestPath}
+                            setLongestPath={setLongestPath}
+                        />
+                        <DataTable columns={columns} data={destinations}/>
                     </TabsContent>
 
                     <TabsContent value="player-2">Change your password here.</TabsContent>

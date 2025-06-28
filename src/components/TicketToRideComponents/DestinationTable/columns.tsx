@@ -14,7 +14,7 @@ import {
 export type Destination = {
     id: string,
     route: string,
-    type: "long ticket" | "short ticket",
+    type: string,
     status: boolean,
     points: number,
 }

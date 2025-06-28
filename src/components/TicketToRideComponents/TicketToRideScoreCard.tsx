@@ -12,13 +12,22 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Plus, Minus, Ellipsis } from "lucide-react"
 
+import { type Destination } from "./DestinationTable/columns"
+
 // Imported forms
 import { DestinationForm } from "./DestinationForm"
 import { LongestPathForm } from "./LongestPathForm"
 
-export function TicketToRideScoreCard() {
-    const [destinations, setDestinations] = useState<number[]>([]);
-    const [longestPath, setLongestPath] = useState<number>(0);
+interface ScoreCardProps {
+    destinations: Destination[],
+    setDestinations: React.Dispatch<React.SetStateAction<Destination[]>>,
+    longestPath: number,
+    setLongestPath: React.Dispatch<React.SetStateAction<number>>
+}
+
+export function TicketToRideScoreCard({ destinations, setDestinations, longestPath, setLongestPath }: ScoreCardProps) {
+    // const [destinations, setDestinations] = useState<number[]>([]);
+    // const [longestPath, setLongestPath] = useState<number>(0);
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
 
     return (

@@ -48,7 +48,7 @@ export function LongestPathForm({ longestPath, setLongestPath }: LongestPathForm
             })
         }
         LongestPathForm.setValue("path_length", undefined);
-        console.log(longestPath);
+        // console.log(longestPath);
     }
 
     return (

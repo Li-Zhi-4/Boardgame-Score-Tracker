@@ -14,9 +14,11 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+import { type Destination } from "./DestinationTable/columns"
+
 interface DestinationFormProps {
-    destinations: number[],
-    setDestinations: React.Dispatch<React.SetStateAction<number[]>>;
+    destinations: Destination[],
+    setDestinations: React.Dispatch<React.SetStateAction<Destination[]>>;
 }
 
 
@@ -38,11 +40,17 @@ export function DestinationForm({ destinations, setDestinations }: DestinationFo
     function onDestinationSubmit(data: z.infer<typeof DestinationFormSchema>) {
         // console.log(data);
         if (typeof data["points"] === "number") {
-            const points = data["points"];
+            const dataObj = {
+                id: "1",
+                route: "Unknown",
+                type: data["points"] > 17 ? "long ticket" : "short ticket",
+                status: data["points"] > 0,
+                points: data["points"]
+            }
             // console.log(points)
-            setDestinations((prev) => [...prev, points]);
+            setDestinations((prev) => [...prev, dataObj]);
             toast("Successfully Recorded Destination Ticket", {
-                description: `${points} points added to total`,
+                description: `${dataObj} points added to total`,
                 action: {
                     label: "undo",
                     onClick: () => console.log("Undo")
@@ -50,7 +58,7 @@ export function DestinationForm({ destinations, setDestinations }: DestinationFo
             })
         }
         form.setValue("points", undefined);
-        console.log(destinations);
+        // console.log(destinations);
     }
 
 
