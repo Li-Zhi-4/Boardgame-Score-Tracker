@@ -49,7 +49,7 @@ export function DestinationForm({ destinations, setDestinations }: DestinationFo
             }
             // console.log(points)
             setDestinations((prev) => [...prev, dataObj]);
-            toast("Successfully Recorded Destination Ticket", {
+            toast("Successfully Recorded Data", {
                 description: `${dataObj.points} points added to total`,
                 action: {
                     label: "undo",

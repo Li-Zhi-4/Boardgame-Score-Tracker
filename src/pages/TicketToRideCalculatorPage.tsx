@@ -101,7 +101,7 @@ export function TicketToRideCalculatorPage() {
                 </Tabs>
             </div>
             <Footer />
-            <Toaster className="top-4 right-4 fixed" />
+            <Toaster className="h-fit bottom-4 right-4 fixed" />
         </div>
     )
 }

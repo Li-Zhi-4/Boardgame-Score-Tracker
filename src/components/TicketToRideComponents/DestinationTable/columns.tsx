@@ -29,7 +29,7 @@ export type Destination = {
 export const TotalColumns: ColumnDef<TotalPoints>[] = [
     {
         accessorKey: "objectives",
-        header: () => <div className="text-center">Objectives</div>,
+        header: () => <div>Objectives</div>,
         cell: ({ row }) => {
             return (
                 row.getValue("objectives") === "Total" ? 

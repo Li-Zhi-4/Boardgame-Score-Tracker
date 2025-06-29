@@ -15,6 +15,7 @@ import { Plus, Minus, Ellipsis } from "lucide-react"
 import { type Destination } from "./DestinationTable/columns"
 
 // Imported forms
+import { TrainForm } from "./TrainForm"
 import { DestinationForm } from "./DestinationForm"
 import { LongestPathForm } from "./LongestPathForm"
 
@@ -44,7 +45,8 @@ export function TicketToRideScoreCard({ destinations, setDestinations, longestPa
             <CardContent className="flex flex-col gap-2">
                 <CardTitle>Trains and Stations Calculator</CardTitle>
                 <CardDescription>Count your train routes and remaining unused stations.</CardDescription>
-                {TRAINS.map( (item, idx) => (
+                <TrainForm></TrainForm>
+                {/* {TRAINS.map( (item, idx) => (
                     <div className="flex flex-row w-full" key={idx}>
                         <span className="flex justify-center items-center w-[100px]">{item}</span>
                         <div className="flex flex-row gap-4 justify-center w-full">
@@ -57,7 +59,7 @@ export function TicketToRideScoreCard({ destinations, setDestinations, longestPa
                             </Button>
                         </div>
                     </div>
-                ))}
+                ))} */}
             </CardContent>
 
             {/* Destination Calculator */}

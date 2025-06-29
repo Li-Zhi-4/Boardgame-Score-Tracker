@@ -39,7 +39,7 @@ export function LongestPathForm({ longestPath, setLongestPath }: LongestPathForm
         // console.log(data);
         if (typeof data["path_length"] === "number") {
             setLongestPath(data["path_length"]);
-            toast("Successfully Recorded Longest Path", {
+            toast("Successfully Recorded Data", {
                 description: `Path length of ${data["path_length"]} recorded`,
                 action: {
                     label: "undo",
