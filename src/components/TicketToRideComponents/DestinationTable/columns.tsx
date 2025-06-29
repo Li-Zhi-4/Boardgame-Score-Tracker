@@ -11,6 +11,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+export type TotalPoints = {
+    objectives: string,
+    status: string,
+    points: number
+}
+
 export type Destination = {
     id: string,
     route: string,
@@ -19,7 +25,44 @@ export type Destination = {
     points: number,
 }
 
-export const columns: ColumnDef<Destination>[] = [
+
+export const TotalColumns: ColumnDef<TotalPoints>[] = [
+    {
+        accessorKey: "objectives",
+        header: () => <div className="text-center">Objectives</div>,
+        cell: ({ row }) => {
+            return (
+                row.getValue("objectives") === "Total" ? 
+                <div className="font-bold">{row.getValue("objectives")}</div> : 
+                <div>{row.getValue("objectives")}</div>
+            )
+        }
+    },
+    {
+        accessorKey: "status",
+        header: () => <div className="text-center">Status</div>,
+        cell: ({ row }) => {
+            return (
+                <div className="flex justify-center">
+                    {row.getValue("status") ? <Badge variant="outline">{row.getValue("status")}</Badge> : <></>}
+                </div>
+            )
+        }
+    },
+    {
+        accessorKey: "points",
+        header: () => <div className="text-center">Points</div>,
+        cell: ({ row }) => {
+            return (
+                row.getValue("objectives") === "Total" ? 
+                <div className="flex justify-center font-bold">{row.getValue("points")}</div> : 
+                <div className="flex justify-center">{row.getValue("points")}</div>
+            )
+        }
+    }
+]
+
+export const DestinationColumns: ColumnDef<Destination>[] = [
     {
         accessorKey: "route",
         header: "Destination Tickets"

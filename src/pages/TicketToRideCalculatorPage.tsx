@@ -7,28 +7,42 @@ import { Plus } from "lucide-react"
 import { NavigationBar } from "@/components/NavigationBar"
 import { HeroBanner } from "@/components/HeroBanner"
 import { TicketToRideScoreCard } from "@/components/TicketToRideComponents/TicketToRideScoreCard"
-import { columns, type Destination } from "@/components/TicketToRideComponents/DestinationTable/columns"
+import { 
+    TotalColumns,
+    type TotalPoints,
+    DestinationColumns, 
+    type Destination 
+} from "@/components/TicketToRideComponents/DestinationTable/columns"
 import { DataTable } from "@/components/TicketToRideComponents/DestinationTable/destination-table"
 import { Footer } from "@/components/Footer"
 
 import ticketToRideImage from '/src/assets/ticket-to-ride.svg'
 
-function getData(): Destination[] {
+function getData(destinations: Destination[], longestPath: number): TotalPoints[] {
+
+    const totalDestinationPoints = destinations.reduce((acc, object) => acc + (object.points ?? 0), 0);
+    const longestPathPoints = 0;
     
     return [
         {
-            id: "1",
-            route: "Petrograd to Brest",
-            type: "long ticket",
-            status: true,
-            points: 21,
+            objectives: "Trains and Stations",
+            status: "not scored",
+            points: 0
         },
         {
-            id: "2",
-            route: "Petrograd to Brest",
-            type: "long ticket",
-            status: false,
-            points: 21,
+            objectives: "Destination Tickets",
+            status: totalDestinationPoints === 0 ? "not scored" : "scored",
+            points: totalDestinationPoints
+        },
+        {
+            objectives: "Longest Path Bonus",
+            status: longestPath === 0 ? "not scored" : "scored",
+            points: longestPathPoints // Will have to compare between all player's longestPath
+        },
+        {
+            objectives: "Total",
+            status: "",
+            points: totalDestinationPoints + longestPathPoints
         },
     ]
 }
@@ -38,6 +52,8 @@ function getData(): Destination[] {
 export function TicketToRideCalculatorPage() {
     const [destinations, setDestinations] = useState<Destination[]>([]);
     const [longestPath, setLongestPath] = useState<number>(0);
+
+    const totalData = getData(destinations, longestPath);
 
     return (
         <div className="overflow-x-hidden">
@@ -73,7 +89,10 @@ export function TicketToRideCalculatorPage() {
                             longestPath={longestPath}
                             setLongestPath={setLongestPath}
                         />
-                        <DataTable columns={columns} data={destinations}/>
+                        <div className="flex flex-col gap-6 w-full">
+                            <DataTable columns={TotalColumns} data={totalData} />
+                            <DataTable columns={DestinationColumns} data={destinations}/>
+                        </div>
                     </TabsContent>
 
                     <TabsContent value="player-2">Change your password here.</TabsContent>

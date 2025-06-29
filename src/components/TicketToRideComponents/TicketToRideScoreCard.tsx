@@ -26,8 +26,6 @@ interface ScoreCardProps {
 }
 
 export function TicketToRideScoreCard({ destinations, setDestinations, longestPath, setLongestPath }: ScoreCardProps) {
-    // const [destinations, setDestinations] = useState<number[]>([]);
-    // const [longestPath, setLongestPath] = useState<number>(0);
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
 
     return (
