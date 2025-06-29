@@ -1,7 +1,6 @@
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -43,7 +42,7 @@ export function DestinationForm({ destinations, setDestinations }: DestinationFo
             const dataObj = {
                 id: "1",
                 route: "Unknown",
-                type: data["points"] > 17 ? "long ticket" : "short ticket",
+                type: Math.abs(data["points"]) > 17 ? "long ticket" : "short ticket",
                 status: data["points"] > 0,
                 points: data["points"]
             }
@@ -58,7 +57,7 @@ export function DestinationForm({ destinations, setDestinations }: DestinationFo
             })
         }
         form.setValue("points", undefined);
-        // console.log(destinations);
+        console.log(destinations);
     }
 
 

@@ -1,7 +1,6 @@
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -14,12 +13,30 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { type Train } from "./DestinationTable/columns"
 
+export interface TrainObject {
+    "1 train": number;
+    "2 trains": number;
+    "3 trains": number;
+    "4 trains": number;
+    "5 trains": number;
+    "6 trains": number;
+    "7 trains": number;
+    "8 trains": number;
+    "stations": number;
+}
 
-export function TrainForm() {
-    const [trains, setTrains] = useState({"1 train": 0, "2 trains": 0, "3 trains": 0, "4 trains": 0, "5 trains": 0, "6 trains": 0, "7 trains": 0, "stations": 0});
-    const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
+interface TrainFormProps {
+    trains: Train[],
+    setTrains: React.Dispatch<React.SetStateAction<Train[]>>;
+}
+
+export function TrainForm({ trains, setTrains }: TrainFormProps) {
+    // const [trains, setTrains] = useState({"1 train": 0, "2 trains": 0, "3 trains": 0, "4 trains": 0, "5 trains": 0, "6 trains": 0, "7 trains": 0, "stations": 0});
+    const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "8 trains", "stations"];
+    const points = [1, 2, 4, 7, 10, 15, 18, 21, 3]
+
 
     // Form Schemas
     const TrainFormSchema = z.object({
@@ -30,6 +47,7 @@ export function TrainForm() {
         "5 trains": z.coerce.number().nonnegative().int(),
         "6 trains": z.coerce.number().nonnegative().int(),
         "7 trains": z.coerce.number().nonnegative().int(),
+        "8 trains": z.coerce.number().nonnegative().int(),
         "stations": z.coerce.number().nonnegative().int()
     });
 
@@ -44,14 +62,12 @@ export function TrainForm() {
             "5 trains": 0,
             "6 trains": 0,
             "7 trains": 0,
+            "8 trains": 0,
             "stations": 0,
         },
     });
 
-    function onTrainSubmit(data: z.infer<typeof TrainFormSchema>) {
-        // console.log(data);
-        setTrains(data);
-        
+    function runToast() {
         toast("Successfully Recorded Data", {
             description: `Points added to trains/stations table`,
             action: {
@@ -59,6 +75,21 @@ export function TrainForm() {
                 onClick: () => console.log("Undo")
             }
         })
+    }
+
+    function onTrainSubmit(data: z.infer<typeof TrainFormSchema>) {
+        // console.log(data);
+        const trainPoints = TRAINS.map( (item,idx) => (
+            {
+                trains: item,
+                number: `${data[item as keyof TrainObject]}x`,
+                points: data[item as keyof TrainObject]*points[idx]
+            }
+        ))
+        // console.log(trainPoints)
+        setTrains(trainPoints)
+        
+        runToast()
         console.log(trains);
     }
 
@@ -78,7 +109,7 @@ export function TrainForm() {
                                     size="icon"
                                     type="submit"
                                     onClick={() => field.onChange((field.value ?? 0) - 1)}
-                                    disabled={(field.value ?? 0) <= 0}
+                                    disabled={(field.value ?? 0) < 0}
                                 >
                                     <Minus />
                                 </Button>
@@ -87,10 +118,17 @@ export function TrainForm() {
                                         className="no-spinner w-9 h-9" 
                                         placeholder="0" 
                                         type="number" 
-                                        value={field.value ?? 0}
-                                        onChange={(e) =>
-                                            field.onChange(e.target.value === "" ? undefined : +e.target.value)
-                                        }
+                                        value={field.value ?? undefined}
+                                        onChange={(e) => {
+                                            const value = e.target.value === "" ? undefined : +e.target.value;
+                                            field.onChange(value);
+                                            setTrains((prev) => ({
+                                                ...prev,
+                                                [item]: value ?? undefined, 
+                                            }));
+                                            runToast()
+                                        }}
+                                        onFocus={(e) => e.target.select()}  
                                     />
                                 </FormControl>
                                 <Button 

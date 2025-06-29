@@ -1,18 +1,14 @@
-import { useState } from "react"
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Plus, Minus, Ellipsis } from "lucide-react"
+import { Ellipsis } from "lucide-react"
 
-import { type Destination } from "./DestinationTable/columns"
+import { type Destination, type Train } from "./DestinationTable/columns"
 
 // Imported forms
 import { TrainForm } from "./TrainForm"
@@ -20,14 +16,15 @@ import { DestinationForm } from "./DestinationForm"
 import { LongestPathForm } from "./LongestPathForm"
 
 interface ScoreCardProps {
+    trains: Train[],
+    setTrains: React.Dispatch<React.SetStateAction<Train[]>>
     destinations: Destination[],
     setDestinations: React.Dispatch<React.SetStateAction<Destination[]>>,
     longestPath: number,
     setLongestPath: React.Dispatch<React.SetStateAction<number>>
 }
 
-export function TicketToRideScoreCard({ destinations, setDestinations, longestPath, setLongestPath }: ScoreCardProps) {
-    const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "stations"];
+export function TicketToRideScoreCard({ trains, setTrains, destinations, setDestinations, longestPath, setLongestPath }: ScoreCardProps) {
 
     return (
         <Card className="w-full lg:w-auto">
@@ -45,21 +42,8 @@ export function TicketToRideScoreCard({ destinations, setDestinations, longestPa
             <CardContent className="flex flex-col gap-2">
                 <CardTitle>Trains and Stations Calculator</CardTitle>
                 <CardDescription>Count your train routes and remaining unused stations.</CardDescription>
-                <TrainForm></TrainForm>
-                {/* {TRAINS.map( (item, idx) => (
-                    <div className="flex flex-row w-full" key={idx}>
-                        <span className="flex justify-center items-center w-[100px]">{item}</span>
-                        <div className="flex flex-row gap-4 justify-center w-full">
-                            <Button variant="secondary" size="icon">
-                                <Minus />
-                            </Button>
-                            <Input id={item} className="w-9 h-9 no-spinner" placeholder="0" type="number" />
-                            <Button variant="secondary" size="icon">
-                                <Plus />
-                            </Button>
-                        </div>
-                    </div>
-                ))} */}
+                {/* Form goes here */}
+                <TrainForm trains={trains} setTrains={setTrains} />
             </CardContent>
 
             {/* Destination Calculator */}

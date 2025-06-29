@@ -17,6 +17,12 @@ export type TotalPoints = {
     points: number
 }
 
+export type Train = {
+    trains: string,
+    number: string,
+    points: number
+}
+
 export type Destination = {
     id: string,
     route: string,
@@ -59,6 +65,21 @@ export const TotalColumns: ColumnDef<TotalPoints>[] = [
                 <div className="flex justify-center">{row.getValue("points")}</div>
             )
         }
+    }
+]
+
+export const TrainColumns: ColumnDef<Train>[] = [
+    {
+        accessorKey: "trains",
+        header: "Trains and Stations"
+    },
+    {
+        accessorKey: "number",
+        header: "Number"
+    },
+    {
+        accessorKey: "points",
+        header: "Points"
     }
 ]
 

@@ -10,6 +10,8 @@ import { TicketToRideScoreCard } from "@/components/TicketToRideComponents/Ticke
 import { 
     TotalColumns,
     type TotalPoints,
+    TrainColumns,
+    type Train,
     DestinationColumns, 
     type Destination 
 } from "@/components/TicketToRideComponents/DestinationTable/columns"
@@ -18,16 +20,16 @@ import { Footer } from "@/components/Footer"
 
 import ticketToRideImage from '/src/assets/ticket-to-ride.svg'
 
-function getData(destinations: Destination[], longestPath: number): TotalPoints[] {
-
+function getData(trains: Train[], destinations: Destination[], longestPath: number): TotalPoints[] {
+    const totalTrainPoints = trains.reduce((acc, object) => acc + (object.points ?? 0), 0);
     const totalDestinationPoints = destinations.reduce((acc, object) => acc + (object.points ?? 0), 0);
     const longestPathPoints = 0;
     
     return [
         {
             objectives: "Trains and Stations",
-            status: "not scored",
-            points: 0
+            status: totalTrainPoints === 0 ? "not scored" : "scored",
+            points: totalTrainPoints
         },
         {
             objectives: "Destination Tickets",
@@ -42,18 +44,45 @@ function getData(destinations: Destination[], longestPath: number): TotalPoints[
         {
             objectives: "Total",
             status: "",
-            points: totalDestinationPoints + longestPathPoints
+            points: totalTrainPoints + totalDestinationPoints + longestPathPoints
         },
     ]
 }
 
+function trainData(trains: Train[]): Train[] {
+    const totalPoints = {
+        trains: "Total",
+        number: "",
+        points: trains.reduce((acc, object) => acc + (object.points ?? 0), 0)
+    }
+
+    return (
+        [...trains, totalPoints]
+    )
+}
+
+function createTrainObject() {
+    const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "8 trains", "stations"];
+
+    return (
+        TRAINS.map( item => (
+            {
+                trains: item,
+                number: "0x",
+                points: 0
+            }
+        ))
+    )
+}
 
 
 export function TicketToRideCalculatorPage() {
+    const [trains, setTrains] = useState<Train[]>(createTrainObject);
     const [destinations, setDestinations] = useState<Destination[]>([]);
     const [longestPath, setLongestPath] = useState<number>(0);
 
-    const totalData = getData(destinations, longestPath);
+    const trainAndStationData = trainData(trains);
+    const totalData = getData(trains, destinations, longestPath);
 
     return (
         <div className="overflow-x-hidden">
@@ -84,6 +113,8 @@ export function TicketToRideCalculatorPage() {
                     {/* Player 1 Content goes here */}
                     <TabsContent value="player-1" className="flex flex-col lg:flex-row gap-6 pt-6">
                         <TicketToRideScoreCard 
+                            trains={trains}
+                            setTrains={setTrains}
                             destinations={destinations}
                             setDestinations={setDestinations}
                             longestPath={longestPath}
@@ -91,6 +122,7 @@ export function TicketToRideCalculatorPage() {
                         />
                         <div className="flex flex-col gap-6 w-full">
                             <DataTable columns={TotalColumns} data={totalData} />
+                            <DataTable columns={TrainColumns} data={trainAndStationData} />
                             <DataTable columns={DestinationColumns} data={destinations}/>
                         </div>
                     </TabsContent>
