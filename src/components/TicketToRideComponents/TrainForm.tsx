@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import {
     Form,
     FormControl,
@@ -33,10 +34,13 @@ interface TrainFormProps {
 }
 
 export function TrainForm({ trains, setTrains }: TrainFormProps) {
-    // const [trains, setTrains] = useState({"1 train": 0, "2 trains": 0, "3 trains": 0, "4 trains": 0, "5 trains": 0, "6 trains": 0, "7 trains": 0, "stations": 0});
+    const [trainNumbers, setTrainNumbers] = useState({"1 train": 0, "2 trains": 0, "3 trains": 0, "4 trains": 0, "5 trains": 0, "6 trains": 0, "7 trains": 0, "8 trains": 0, "stations": 0});
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "8 trains", "stations"];
     const points = [1, 2, 4, 7, 10, 15, 18, 21, 3]
 
+    useEffect(() => {
+        onTrainSubmit(trainNumbers);
+    }, [trainNumbers]);
 
     // Form Schemas
     const TrainFormSchema = z.object({
@@ -90,7 +94,8 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
         setTrains(trainPoints)
         
         runToast()
-        console.log(trains);
+        // console.log(trains);
+        console.log(trainNumbers)
     }
 
     return (
@@ -108,7 +113,15 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
                                     variant="secondary"
                                     size="icon"
                                     type="submit"
-                                    onClick={() => field.onChange((field.value ?? 0) - 1)}
+                                    // onClick={() => field.onChange((field.value ?? 0) - 1)}
+                                    onClick={() => {
+                                        const newValue = Math.max((field.value ?? 0) - 1, 0);
+                                        field.onChange(newValue);
+                                        setTrainNumbers((prev) => ({
+                                            ...prev,
+                                            [item]: newValue,
+                                        }));
+                                    }}
                                     disabled={(field.value ?? 0) < 0}
                                 >
                                     <Minus />
@@ -122,7 +135,7 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
                                         onChange={(e) => {
                                             const value = e.target.value === "" ? undefined : +e.target.value;
                                             field.onChange(value);
-                                            setTrains((prev) => ({
+                                            setTrainNumbers((prev) => ({
                                                 ...prev,
                                                 [item]: value ?? undefined, 
                                             }));
@@ -135,7 +148,15 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
                                     variant="secondary" 
                                     size="icon"
                                     type="submit"
-                                    onClick={() => field.onChange((field.value ?? 0) + 1)}
+                                    // onClick={() => field.onChange((field.value ?? 0) + 1)}
+                                    onClick={() => {
+                                        const newValue = Math.max((field.value ?? 0) + 1, 0);
+                                        field.onChange(newValue);
+                                        setTrainNumbers((prev) => ({
+                                            ...prev,
+                                            [item]: newValue,
+                                        }));
+                                    }}
                                 >
                                     <Plus />
                                 </Button>
