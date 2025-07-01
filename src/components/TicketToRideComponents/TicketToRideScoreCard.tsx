@@ -27,7 +27,7 @@ interface ScoreCardProps {
 export function TicketToRideScoreCard({ trains, setTrains, destinations, setDestinations, longestPath, setLongestPath }: ScoreCardProps) {
 
     return (
-        <Card className="w-full lg:w-auto">
+        <Card className="w-full lg:w-auto h-fit">
             <CardHeader className="flex flex-row justify-between">
                 <div className="flex flex-col gap-2">
                     <CardTitle>Player 1</CardTitle>

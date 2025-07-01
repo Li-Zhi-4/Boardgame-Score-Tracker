@@ -13,7 +13,9 @@ import {
     TrainColumns,
     type Train,
     DestinationColumns, 
-    type Destination 
+    type Destination,
+    LongestPathColumns,
+    type Path
 } from "@/components/TicketToRideComponents/DestinationTable/columns"
 import { DataTable } from "@/components/TicketToRideComponents/DestinationTable/destination-table"
 import { Footer } from "@/components/Footer"
@@ -61,6 +63,18 @@ function trainData(trains: Train[]): Train[] {
     )
 }
 
+function pathData(longestPath: number): Path {
+    const comparisonData = {
+        "player 1": 43,
+        "player 2": 23
+    }
+
+    return { 
+        length: longestPath, 
+        position: "longest" 
+    }
+}
+
 function createTrainObject() {
     const TRAINS = ["1 train", "2 trains", "3 trains", "4 trains", "5 trains", "6 trains", "7 trains", "8 trains", "stations"];
 
@@ -77,12 +91,18 @@ function createTrainObject() {
 
 
 export function TicketToRideCalculatorPage() {
+    // const [playerData, setPlayerData] = useState([])
+
     const [trains, setTrains] = useState<Train[]>(createTrainObject);
     const [destinations, setDestinations] = useState<Destination[]>([]);
     const [longestPath, setLongestPath] = useState<number>(0);
 
     const trainAndStationData = trainData(trains);
     const totalData = getData(trains, destinations, longestPath);
+    const longestPathData = [pathData(longestPath)];
+
+    // const playerSummary = [totalData, trainAndStationData, destinations, longestPathData];
+    // console.log(playerSummary)
 
     return (
         <div className="overflow-x-hidden">
@@ -124,6 +144,7 @@ export function TicketToRideCalculatorPage() {
                             <DataTable columns={TotalColumns} data={totalData} />
                             <DataTable columns={TrainColumns} data={trainAndStationData} />
                             <DataTable columns={DestinationColumns} data={destinations}/>
+                            <DataTable columns={LongestPathColumns} data={longestPathData}/>
                         </div>
                     </TabsContent>
 

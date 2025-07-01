@@ -31,6 +31,11 @@ export type Destination = {
     points: number,
 }
 
+export type Path = {
+    length: number,
+    position: string
+}
+
 
 export const TotalColumns: ColumnDef<TotalPoints>[] = [
     {
@@ -71,15 +76,36 @@ export const TotalColumns: ColumnDef<TotalPoints>[] = [
 export const TrainColumns: ColumnDef<Train>[] = [
     {
         accessorKey: "trains",
-        header: "Trains and Stations"
+        header: "Trains and Stations",
+        cell: ({ row }) => {
+            return (
+                row.getValue("trains") === "Total" ? 
+                <div className="font-bold">{row.getValue("trains")}</div> : 
+                <div>{row.getValue("trains")}</div>
+            )
+        }
     },
     {
         accessorKey: "number",
-        header: "Number"
+        header: () => <div className="text-center">Number</div>,
+        cell: ({ row }) => {
+            return (
+                <div className="flex justify-center">
+                    {row.getValue("number")}
+                </div>
+            )
+        }
     },
     {
         accessorKey: "points",
-        header: "Points"
+        header: () => <div className="text-center">Points</div>,
+        cell: ({ row }) => {
+            return (
+                row.getValue("trains") === "Total" ? 
+                <div className="flex justify-center font-bold">{row.getValue("points")}</div> : 
+                <div className="flex justify-center">{row.getValue("points")}</div>
+            )
+        }
     }
 ]
 
@@ -153,4 +179,15 @@ export const DestinationColumns: ColumnDef<Destination>[] = [
             )
         },
     },
+]
+
+export const LongestPathColumns: ColumnDef<Path>[] = [
+    {
+        accessorKey: "length",
+        header: "Length of Path"
+    },
+    {
+        accessorKey: "position",
+        header: "Position"
+    }
 ]

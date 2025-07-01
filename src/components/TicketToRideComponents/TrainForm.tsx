@@ -71,16 +71,6 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
         },
     });
 
-    function runToast() {
-        toast("Successfully Recorded Data", {
-            description: `Points added to trains/stations table`,
-            action: {
-                label: "undo",
-                onClick: () => console.log("Undo")
-            }
-        })
-    }
-
     function onTrainSubmit(data: z.infer<typeof TrainFormSchema>) {
         // console.log(data);
         const trainPoints = TRAINS.map( (item,idx) => (
@@ -92,10 +82,14 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
         ))
         // console.log(trainPoints)
         setTrains(trainPoints)
-        
-        runToast()
-        // console.log(trains);
-        console.log(trainNumbers)
+        toast("Successfully Recorded Data", {
+            description: `Points added to trains/stations table`,
+            action: {
+                label: "undo",
+                onClick: () => console.log("Undo")
+            }
+        })
+        console.log(trains);
     }
 
     return (
@@ -139,7 +133,6 @@ export function TrainForm({ trains, setTrains }: TrainFormProps) {
                                                 ...prev,
                                                 [item]: value ?? undefined, 
                                             }));
-                                            runToast()
                                         }}
                                         onFocus={(e) => e.target.select()}  
                                     />
