@@ -1,14 +1,14 @@
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+
+import { Counter } from "@/components/Counter"
 
 
 export function ErrorPage() {
@@ -26,6 +26,7 @@ export function ErrorPage() {
                     </Button>
                 </CardContent>
             </Card>
+            <Counter></Counter>
         </div>
     )
 }

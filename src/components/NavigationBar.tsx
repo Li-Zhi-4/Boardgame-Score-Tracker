@@ -74,6 +74,11 @@ export function NavigationBar() {
                                 <Link to='/error'>Contact</Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                <Link to='/test'>Test</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
                 <div>{/* Log in content will go here */}</div>
